@@ -11,6 +11,7 @@ module Stead
       # component_parts are the rows in the csv file
       @component_parts = csv_to_a
       @idcontainers = opts[:idcontainers]
+      @unittitle = opts[:unittitle]
       @unitid = opts[:unitid]
       @extent = opts[:extent]
       @unitdate = opts[:unitdate]
@@ -50,6 +51,14 @@ module Stead
       end
     end
 
+    def add_archdesc_unittitle
+      if @unittitle
+        # binding.pry
+        unittitle_elem = @ead.xpath('//xmlns:archdesc/xmlns:did/xmlns:unittitle').first
+        unittitle_elem.content = @unittitle
+      end
+    end
+
     def add_archdesc_unitid
       if @unitid
         # binding.pry
@@ -76,6 +85,7 @@ module Stead
       @ead = template.dup
       add_eadid
       add_eadid_url
+      add_archdesc_unittitle
       add_archdesc_unitid
       add_archdesc_extent
       add_archdesc_unitdate
